@@ -26,14 +26,14 @@ public class Main {
         try {
             CommandLine cmd = parser.parse(options, args);
             PLAYER1_STRENGTH = Integer.parseInt(cmd.getOptionValue("p1","50"));
-            logger.info("****** P1's Strength is " + PLAYER1_STRENGTH+"/100");
+            logger.trace("****** P1's Strength is " + PLAYER1_STRENGTH+"/100");
             PLAYER2_STRENGTH = Integer.parseInt(cmd.getOptionValue("p2","50"));
-            logger.info("****** P2's Strength is " + PLAYER2_STRENGTH+"/100");
+            logger.trace("****** P2's Strength is " + PLAYER2_STRENGTH+"/100");
         } catch (ParseException pe) {
-            logger.info("An error has occurred");
+            logger.error("An error has occurred");
         }
         logger.info("**** Starting game");
-        logger.info("** TODO...");
+        logger.debug("** TODO...");
         logger.info("** Closing Tennis Counter Assistant");
     }
 
