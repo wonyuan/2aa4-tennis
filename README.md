@@ -26,7 +26,7 @@ The scoring system is rather simple:
 The problem description is vague and imprecise, and does not indicate how the score is actually 
 incremented. We'll operate under the following assumptions:
 
-- Players are characterized by a _strength_ (a simplification of their ATP ranking)/
+- Players are characterized by a _strength_ (a simplification of their ATP ranking)
 - The _strength_ is an integer in the [0,100] range
 - This number is provided to the counting assistant through the command line (default is 50)
 
@@ -35,18 +35,33 @@ incremented. We'll operate under the following assumptions:
 To compile the source code into a turn-key _Java ARchive_ (JAR):
 
 ```
-mosser@azrael 2aa4-tennis % mvn package  
+mosser@azrael 2aa4-tennis % mvn -q clean package  
 ```
 
 To run the counting assistant:
 
 ```
-mosser@azrael 2aa4-tennis % java -jar target/tennis.jar -p1 75 -p2 30
+mosser@azrael 2aa4-tennis % java -jar target/tennis.jar -p1 90 -p2 85 -scorer rule
 ** Starting Tennis Counter Assistant
 **** Reading Command-Line Arguments
-****** P1's Strength is 75/100
-****** P2's Strength is 30/100
+****** P1's Strength is 90/100
+****** P2's Strength is 85/100
 **** Starting game
-** TODO...
+Playing a match between p1 and p2
+LOVE - LOVE           --[p1]--> FIFTEEN - LOVE
+FIFTEEN - LOVE        --[p1]--> THIRTY - LOVE
+THIRTY - LOVE         --[p2]--> THIRTY - FIFTEEN
+THIRTY - FIFTEEN      --[p2]--> THIRTY - THIRTY
+THIRTY - THIRTY       --[p1]--> FORTY - THIRTY
+FORTY - THIRTY        --[p2]--> FORTY - FORTY (DEUCE)
+FORTY - FORTY (DEUCE) --[p2]--> FORTY - ADVANTAGE
+FORTY - ADVANTAGE     --[p1]--> FORTY - FORTY (DEUCE)
+FORTY - FORTY (DEUCE) --[p1]--> ADVANTAGE - FORTY
+ADVANTAGE - FORTY     --[p2]--> FORTY - FORTY (DEUCE)
+FORTY - FORTY (DEUCE) --[p2]--> FORTY - ADVANTAGE
+FORTY - ADVANTAGE     --[p1]--> FORTY - FORTY (DEUCE)
+FORTY - FORTY (DEUCE) --[p1]--> ADVANTAGE - FORTY
+ADVANTAGE - FORTY     --[p1]--> GAME - FORTY
+==>> Winner: p1
 ** Closing Tennis Counter Assistant
 ```
