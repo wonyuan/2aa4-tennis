@@ -1,0 +1,38 @@
+@startuml
+!include ./puml.style
+
+autoactivate on
+
+participant "_: Main" as Main
+participant "theMatch: Match" as Match
+participant "p1: Player" as P1
+participant "p2: Player" as P2
+participant "scorer: ScoreSystem" as Scorer
+
+[-> Main: main(args)
+    == Initialization ==
+    create Match
+        Main -> Match: this(str1, str2)
+        create P1
+            Match -> P1: this("p1", str1)
+            return
+        create P2
+            Match -> P2: this("p2", str2)
+            return
+        create Scorer
+            Match -> Scorer: this(p1, p2)
+            return
+    return
+    == Game Loop ==
+    Main -> Match: play()
+        loop !scorer.isEnded?
+             Match -> Match: playGame()
+             Match -> Scorer: score(p1 || p2)
+             return
+             return
+        end
+        Match -> Scorer: winner()
+        return w
+    return w
+return
+@enduml

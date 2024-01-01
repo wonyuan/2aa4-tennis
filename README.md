@@ -65,3 +65,9 @@ ADVANTAGE - FORTY     --[p1]--> GAME - FORTY
 ==>> Winner: p1
 ** Closing Tennis Counter Assistant
 ```
+
+## Code Structure & Responsibilities
+
+![class diagram](./src/main/puml/structure.svg)
+
+![class diagram](./src/main/puml/match.svg)
