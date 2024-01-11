@@ -102,10 +102,115 @@ Changes not staged for commit:
         modified:   src/main/java/ca/mcscert/se2aa4/demos/tennis/Match.java
 
 mosser@azrael 2aa4-tennis % git add -A
-mosser@azrael 2aa4-tennis % git commit -m "first refactoring to move from starter to walking skeleton" 
+mosser@azrael 2aa4-tennis % git commit -m "first refactoring to move from starter to walking skeleton"
+...
 mosser@azrael 2aa4-tennis % git tag "demo_step_01"
 mosser@azrael 2aa4-tennis % git push --tags origin demo
 ```
 
 What we've done here is a _refactoring_. We have not added any new feature in the code. We have changed the structure so that it is better from a technical point of view.
 
+## UML Model(s)
+
+<div align="center">
+
+![class diagram step 1](./puml/01_config.svg)
+![class diagram step 1](./puml/01_sd_config.svg)
+
+</div>
+
+# Step #2: Create the MVP
+ 
+We need a `ScorerSystem`, to: 
+
+- Score a point: `ScoreSystem::score(String playerName)`
+- Know if the game has ended: `ScoreSystem::isEnded() -> Boolean`
+- Get the winner: `ScoreSystem::winner() -> Optional<String>`
+
+
+1. Create the class `ScoreSystem`, with the three methods.
+
+```
+public class ScoreSystem {
+
+    public void score(String playerName) { }
+
+    public boolean isEnded() { return false; }
+
+    public Optional<String> winner() { return Optional.empty(); }
+
+}
+```
+
+
+2. Implement the business logic in `Match::play`
+
+```    
+public String play() {
+    ScoreSystem scorer = new ScoreSystem();
+    while(! scorer.isEnded()) {
+        String who = decideGameWinner();
+        scorer.score(who);
+    }
+    return scorer.winner()
+             .orElseThrow(() -> new IllegalStateException("No Winner!"));
+}
+```
+
+3. Create the private `Match::decideGameWinner` helper.
+    - Player one will always win. That's unfair. Life is unfair.
+
+```
+private String decideGameWinner() {
+    System.out.println("Winning this game: " + P1_NAME);
+    return P1_NAME;
+}
+```
+
+4. Implement a minimalistic business logic in the `ScoreSystem`
+
+```
+public class ScoreSystem {
+
+    private String winner = null;
+
+    public void score(String playerName) {
+        this.winner = playerName;
+    }
+
+    public boolean isEnded() {
+        return winner != null;
+    }
+
+    public Optional<String> winner() {
+        return (isEnded()? Optional.of(winner): Optional.empty());
+    }
+
+}
+```
+
+We can now compile, try it out, commit and share.
+
+```
+mosser@azrael puml % git status 
+On branch demo
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   src/main/java/ca/mcscert/se2aa4/demos/tennis/ScoreSystem.java
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   src/main/java/ca/mcscert/se2aa4/demos/tennis/Match.java
+        modified:   src/main/java/ca/mcscert/se2aa4/demos/tennis/ScoreSystem.java
+```
+
+
+## UML model(s)
+
+<div align="center">
+
+![class diagram step 1](./puml/02_mvp.svg)
+![class diagram step 1](./puml/02_sd_mvp.svg)
+
+</div>
